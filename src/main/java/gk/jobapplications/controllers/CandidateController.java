@@ -1,2 +1,4 @@
-package gk.jobapplications.controllers;public class Candidate {
+package gk.jobapplications.controllers;
+
+public class CandidateController {
 }
