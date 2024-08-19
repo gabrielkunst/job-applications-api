@@ -13,7 +13,7 @@ public class CompanyService {
     private CompanyRepository companyRepository;
 
     public CompanyEntity createCompany(CompanyEntity companyEntity) {
-        CompanyEntity companyFromDB = companyRepository.findByCNPJ(companyEntity.getCnpj());
+        CompanyEntity companyFromDB = companyRepository.findByCnpj(companyEntity.getCnpj());
 
         if (companyFromDB != null) {
             throw new ResourceAlreadyExistsException("CNPJ já cadastrado");

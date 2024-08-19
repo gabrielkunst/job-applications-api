@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, UUID> {
-    CompanyEntity findByCNPJ(String cnpj);
+    CompanyEntity findByCnpj(String cnpj);
 }
