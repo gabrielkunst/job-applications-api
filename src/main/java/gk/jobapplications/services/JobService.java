@@ -1,7 +1,5 @@
 package gk.jobapplications.services;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +10,11 @@ import gk.jobapplications.repositories.JobRepository;
 @Service
 public class JobService {
 
-  @Autowired
+    @Autowired
     private JobRepository jobRepository;
 
     public JobEntity createJob(JobEntity jobEntity) {
-        Optional<JobEntity> jobFromDB = jobRepository.findById(jobEntity.getId());
+        JobEntity jobFromDB = jobRepository.findByTitle(jobEntity.getTitle());
 
         if (jobFromDB != null) {
             throw new ResourceAlreadyExistsException("Vaga já cadastrada");

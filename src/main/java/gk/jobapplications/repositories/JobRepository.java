@@ -9,5 +9,5 @@ import gk.jobapplications.entities.JobEntity;
 
 @Repository
 public interface JobRepository extends JpaRepository<JobEntity, UUID>{
-  JobEntity findById(String Id);
+  JobEntity findByTitle(String title);
 }
