@@ -39,7 +39,7 @@ public class JobEntity {
   @JoinColumn(name = "company_id")
   private CompanyEntity companyEntity;
 
-  @Column(name = "company_id", nullable = false)
+  @Column(name = "company_id", nullable = false, insertable=false, updatable=false)
   private UUID companyId;
 
   @Column(nullable = false)
@@ -50,10 +50,9 @@ public class JobEntity {
   private String description;
 
   @CreationTimestamp
-  @Column(name = "created_at", updatable = false)
+  @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
-  @CreationTimestamp
-    @Column(name = "delete_at")
-    private LocalDateTime deletedAt;
+  @Column(name = "delete_at")
+  private LocalDateTime deletedAt;
 }
