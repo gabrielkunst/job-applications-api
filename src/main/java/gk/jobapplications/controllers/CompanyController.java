@@ -1,6 +1,7 @@
 package gk.jobapplications.controllers;
 
 import gk.jobapplications.entities.CompanyEntity;
+import gk.jobapplications.responses.ApiResponse;
 import gk.jobapplications.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,13 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping
-    public ResponseEntity<CompanyEntity> createCompany(@RequestBody CompanyEntity companyEntity) {
+    public ResponseEntity<ApiResponse<CompanyEntity>> createCompany(@RequestBody CompanyEntity companyEntity) {
         CompanyEntity company = companyService.createCompany(companyEntity);
-        return new ResponseEntity<CompanyEntity>(company, HttpStatus.CREATED);
+        ApiResponse<CompanyEntity> response = new ApiResponse<>(
+                HttpStatus.CREATED.value(),
+                "Empresa criada com sucesso",
+                company
+        );
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
