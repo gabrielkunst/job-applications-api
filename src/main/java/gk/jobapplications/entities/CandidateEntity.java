@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,12 +12,12 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Entity
+@Table(name = "candidate")
+@Data
+@Builder
 @AllArgsConstructor
-@Table
-@Entity(name = "candidate")
+@NoArgsConstructor
 public class CandidateEntity {
 
     @Id
