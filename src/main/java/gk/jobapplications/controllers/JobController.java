@@ -53,6 +53,17 @@ public class JobController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/company/{companyId}")
+    public ResponseEntity<ApiResponse<List<JobEntity>>> getJobsByCompany(@PathVariable UUID companyId) {
+        List<JobEntity> jobs = jobService.getJobsByCompany(companyId);
+        ApiResponse<List<JobEntity>> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Vagas retornadas com sucesso",
+                jobs
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<JobEntity>> getJobById(@PathVariable UUID id) {
         JobEntity job = jobService.getJobById(id);

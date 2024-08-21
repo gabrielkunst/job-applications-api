@@ -1,6 +1,7 @@
 package gk.jobapplications.services;
 
 import gk.jobapplications.entities.CompanyEntity;
+import gk.jobapplications.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,6 @@ import gk.jobapplications.repositories.JobRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +21,8 @@ public class JobService {
 
     @Autowired
     private CompanyService companyService;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     public JobEntity createJob(JobEntity jobEntity) {
         CompanyEntity companyFromDB = companyService.getCompanyById(jobEntity.getCompanyEntity().getId());
@@ -70,6 +72,16 @@ public class JobService {
 
     public List<JobEntity> getAllJobs() {
         return jobRepository.findAll();
+    }
+
+    public List<JobEntity> getJobsByCompany(UUID id) {
+        CompanyEntity companyFromDB = companyRepository.findById(id).orElse(null);
+
+        if (companyFromDB == null) {
+            throw new ResourceAlreadyExistsException("Empresa não encontrada");
+        }
+
+        return jobRepository.findAllByCompanyEntity(companyFromDB);
     }
 
     public JobEntity getJobByTitle(String title) {

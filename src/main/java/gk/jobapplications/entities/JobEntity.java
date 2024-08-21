@@ -25,7 +25,7 @@ public class JobEntity {
   @Column(nullable = false)
   private String title;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "company_id", nullable = false)
   private CompanyEntity companyEntity;
 
