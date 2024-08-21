@@ -3,6 +3,7 @@ package gk.jobapplications.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -14,17 +15,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "job")
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class JobEntity {
   
   @Id
@@ -50,7 +47,7 @@ public class JobEntity {
   private String description;
 
   @CreationTimestamp
-  @Column(name = "created_at", nullable = false, updatable = false)
+  @Column(name = "created_at", updatable = false)
   private LocalDateTime createdAt;
 
   @Column(name = "delete_at")
