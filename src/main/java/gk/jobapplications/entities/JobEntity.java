@@ -1,5 +1,6 @@
 package gk.jobapplications.entities;
 
+import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -42,4 +43,12 @@ public class JobEntity {
 
   @Column(name = "deleted_at")
   private LocalDateTime deletedAt;
+
+  @ManyToMany
+  @JoinTable(
+    name = "job_candidates",
+    joinColumns = @JoinColumn(name = "job_id"),
+    inverseJoinColumns = @JoinColumn(name = "candidate_id")
+  )
+  private List<CandidateEntity> candidates;
 }
