@@ -46,8 +46,7 @@ public class CandidateEntity {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @CreationTimestamp
+    
     @Column(name = "delete_at")
     private LocalDateTime deletedAt;
 }
