@@ -1,5 +1,6 @@
 package gk.jobapplications.controllers;
 
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,13 +55,24 @@ public class CandidateController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CandidateEntity>> getCandidate(@PathVariable UUID id) {
-        CandidateEntity candidate = candidateService.getCandidate(id);
-        ApiResponse<CandidateEntity> response = new ApiResponse<>(
+    @GetMapping("/active")
+    public ResponseEntity<ApiResponse<List<CandidateEntity>>> getAllActiveCandidates() {
+        List<CandidateEntity> candidates = candidateService.getAllActiveCandidates();
+        ApiResponse<List<CandidateEntity>> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Candidato encontrado",
-                candidate
+                "Lista de candidatos ativos",
+                candidates
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<ApiResponse<List<CandidateEntity>>> getAllInactiveCandidates() {
+        List<CandidateEntity> candidates = candidateService.getAllInactiveCandidates();
+        ApiResponse<List<CandidateEntity>> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Lista de candidatos inativos",
+                candidates
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
