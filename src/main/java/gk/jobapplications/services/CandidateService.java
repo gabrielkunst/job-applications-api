@@ -1,7 +1,7 @@
 package gk.jobapplications.services;
 
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +27,17 @@ public class CandidateService {
         return candidateRepository.save(candidateEntity);
     }
 
-    public void deleteCandidate(CandidateEntity candidateEntity) {
-        candidateEntity.setDeletedAt(LocalDateTime.now());
-        candidateRepository.save(candidateEntity);
-
+    public void deleteCandidate(UUID id) {
         
-        throw new ResourceAlreadyExistsException("Candidato deletado com sucesso");
+        CandidateEntity candidateFromDB = candidateRepository.findById(id).orElse(null);
+
+        if (candidateFromDB == null) {
+            throw new RuntimeException("Candidato não encontrado");
+        }
+
+        candidateFromDB.setDeletedAt(LocalDateTime.now());
+
+        candidateRepository.save(candidateFromDB);
+
     }
 }
