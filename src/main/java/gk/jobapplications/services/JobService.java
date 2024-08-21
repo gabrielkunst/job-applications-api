@@ -36,8 +36,6 @@ public class JobService {
     public JobEntity getJobById(UUID id) {
         JobEntity jobFromDB = jobRepository.findById(id).orElse(null);
 
-        System.out.println(jobFromDB);
-
         if (jobFromDB == null) {
             throw new ResourceAlreadyExistsException("Vaga não encontrada");
         }
@@ -46,29 +44,27 @@ public class JobService {
     }
 
     public JobEntity updateJob(UUID id, JobEntity jobEntity) {
-        Optional<JobEntity> optionalJob = jobRepository.findById(id);
+        JobEntity jobFromDB = jobRepository.findById(id).orElse(null);
 
-        if (optionalJob.isEmpty()) {
+        if (jobFromDB == null) {
             throw new ResourceAlreadyExistsException("Vaga não encontrada");
         }
 
-        JobEntity jobFromDB = optionalJob.get();
         jobFromDB.setTitle(jobEntity.getTitle());
         jobFromDB.setDescription(jobEntity.getDescription());
+        jobFromDB.setQuantity(jobEntity.getQuantity());
 
         return jobRepository.save(jobFromDB);
     }
 
     public void deleteJob(UUID id) {
-        Optional<JobEntity> optionalJob = jobRepository.findById(id);
+        JobEntity jobFromDB = jobRepository.findById(id).orElse(null);
 
-        if (optionalJob.isEmpty()) {
+        if (jobFromDB == null) {
             throw new ResourceAlreadyExistsException("Vaga não encontrada");
         }
 
-        JobEntity jobFromDB = optionalJob.get();
         jobFromDB.setDeletedAt(LocalDateTime.now());
-
         jobRepository.save(jobFromDB);
     }
 
@@ -77,12 +73,12 @@ public class JobService {
     }
 
     public JobEntity getJobByTitle(String title) {
-        Optional<JobEntity> optionalJob = jobRepository.findByTitle(title);
+        JobEntity jobFromDB = jobRepository.findByTitle(title).orElse(null);
 
-        if (optionalJob.isEmpty()) {
+        if (jobFromDB == null) {
             throw new ResourceAlreadyExistsException("Vaga não encontrada");
         }
 
-        return optionalJob.get();
+        return jobFromDB;
     }
 }
