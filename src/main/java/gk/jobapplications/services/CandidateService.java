@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import gk.jobapplications.entities.CandidateEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
+import gk.jobapplications.exceptions.ResourceNotFoundException;
 import gk.jobapplications.repositories.CandidateRepository;
 
 @Service
@@ -32,7 +33,7 @@ public class CandidateService {
         CandidateEntity candidateFromDB = candidateRepository.findById(id).orElse(null);
 
         if (candidateFromDB == null) {
-            throw new RuntimeException("Candidato não encontrado");
+            throw new ResourceNotFoundException("Candidato não encontrado");
         }
 
         candidateFromDB.setDeletedAt(LocalDateTime.now());
