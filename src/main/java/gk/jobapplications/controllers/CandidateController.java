@@ -76,4 +76,15 @@ public class CandidateController {
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<CandidateEntity>> getCandidateById(@PathVariable UUID id) {
+        CandidateEntity candidate = candidateService.getCandidateById(id);
+        ApiResponse<CandidateEntity> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Candidato encontrado",
+                candidate
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

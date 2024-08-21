@@ -71,5 +71,13 @@ public class CandidateService {
         return candidateRepository.findByDeletedAtIsNotNull();
     }
 
-    
+    public CandidateEntity getCandidateById(UUID id) {
+        CandidateEntity companyFromDB = candidateRepository.findById(id).orElse(null);
+
+        if (companyFromDB == null) {
+            throw new ResourceNotFoundException("Candidato não encontrado");
+        }
+
+        return companyFromDB;
+    }
 }
