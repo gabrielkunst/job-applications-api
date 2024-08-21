@@ -1,6 +1,7 @@
 package gk.jobapplications.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,4 +42,34 @@ public class CandidateService {
         candidateRepository.save(candidateFromDB);
 
     }
+
+    public CandidateEntity updateCandidate(UUID id, CandidateEntity candidateEntity) {
+        CandidateEntity candidateFromDB = candidateRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Candidato não encontrado"));
+
+        if (candidateEntity.getName() != null) {
+            candidateFromDB.setName(candidateEntity.getName());
+        }
+        if (candidateEntity.getEmail() != null) {
+            candidateFromDB.setEmail(candidateEntity.getEmail());
+        }
+        if (candidateEntity.getProfession() != null) {
+            candidateFromDB.setProfession(candidateEntity.getProfession());
+        }
+        if (candidateEntity.getPasswordHash() != null) {
+            candidateFromDB.setPasswordHash(candidateEntity.getPasswordHash());
+        }
+
+        return candidateRepository.save(candidateFromDB);
+    }
+
+    public List<CandidateEntity> getAllActiveCandidates() {
+        return candidateRepository.findByDeletedAtIsNull();
+    }
+
+    public List<CandidateEntity> getAllInactiveCandidates() {
+        return candidateRepository.findByDeletedAtIsNotNull();
+    }
+
+    
 }
