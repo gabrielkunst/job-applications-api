@@ -7,6 +7,7 @@ import gk.jobapplications.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -66,6 +67,7 @@ public class CompanyService {
             throw new ResourceNotFoundException("Empresa não encontrada");
         }
 
-        companyRepository.delete(companyEntity);
+        companyEntity.setDeletedAt(LocalDateTime.now());
+        companyRepository.save(companyEntity);
     }
 }
