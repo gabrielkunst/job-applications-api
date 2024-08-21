@@ -1,8 +1,10 @@
 package gk.jobapplications.controllers;
 
+import java.util.List;
 import gk.jobapplications.entities.CompanyEntity;
 import gk.jobapplications.responses.ApiResponse;
 import gk.jobapplications.services.CompanyService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +57,27 @@ public class CompanyController {
         companyService.deleteCompany(id);
 
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<ApiResponse<List<CompanyEntity>>> getAllActiveCompanies() {
+        List<CompanyEntity> companies = companyService.getAllActiveCompanies();
+        ApiResponse<List<CompanyEntity>> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Lista de empresas ativas",
+                companies
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<ApiResponse<List<CompanyEntity>>> getAllInactiveCompanies() {
+        List<CompanyEntity> companies = companyService.getAllInactiveCompanies();
+        ApiResponse<List<CompanyEntity>> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Lista de empresas inativas",
+                companies
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

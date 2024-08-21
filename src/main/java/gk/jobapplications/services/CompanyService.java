@@ -1,9 +1,12 @@
 package gk.jobapplications.services;
 
+import java.util.List;
 import gk.jobapplications.entities.CompanyEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
 import gk.jobapplications.exceptions.ResourceNotFoundException;
 import gk.jobapplications.repositories.CompanyRepository;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +72,13 @@ public class CompanyService {
 
         companyEntity.setDeletedAt(LocalDateTime.now());
         companyRepository.save(companyEntity);
+    }
+
+    public List<CompanyEntity> getAllActiveCompanies() {
+        return companyRepository.findByDeletedAtIsNull();
+    }
+
+    public List<CompanyEntity> getAllInactiveCompanies() {
+        return companyRepository.findByDeletedAtIsNotNull();
     }
 }
