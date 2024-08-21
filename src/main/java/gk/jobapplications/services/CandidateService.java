@@ -41,4 +41,16 @@ public class CandidateService {
         candidateRepository.save(candidateFromDB);
 
     }
+
+    public CandidateEntity updateCandidate(UUID id, CandidateEntity candidateEntity) {
+        CandidateEntity candidateFromDB = candidateRepository.findById(id).orElseThrow(() -> 
+            new ResourceNotFoundException("Candidato não encontrado"));
+
+        candidateFromDB.setName(candidateEntity.getName());
+        candidateFromDB.setEmail(candidateEntity.getEmail());
+        candidateFromDB.setProfession(candidateEntity.getProfession());
+        candidateFromDB.setPasswordHash(candidateEntity.getPasswordHash());
+
+        return candidateRepository.save(candidateFromDB);
+    }
 }

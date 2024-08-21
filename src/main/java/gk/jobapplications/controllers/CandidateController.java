@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gk.jobapplications.entities.CandidateEntity;
-import gk.jobapplications.entities.CompanyEntity;
 import gk.jobapplications.responses.ApiResponse;
 import gk.jobapplications.services.CandidateService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/candidates")
@@ -39,5 +40,16 @@ public class CandidateController {
         candidateService.deleteCandidate(id);
         
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<CandidateEntity>> updateCandidate(@PathVariable UUID id, @RequestBody CandidateEntity candidateEntity) {
+        CandidateEntity candidate = candidateService.updateCandidate(id, candidateEntity);
+        ApiResponse<CandidateEntity> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Candidato atualizado com sucesso",
+                candidate
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
