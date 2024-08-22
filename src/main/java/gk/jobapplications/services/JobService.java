@@ -1,13 +1,17 @@
 package gk.jobapplications.services;
 
 import gk.jobapplications.entities.CompanyEntity;
-import gk.jobapplications.repositories.CompanyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import gk.jobapplications.entities.CandidateEntity;
 import gk.jobapplications.entities.JobEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
+import gk.jobapplications.exceptions.ResourceInvalidException;
+import gk.jobapplications.exceptions.ResourceNotFoundException;
+import gk.jobapplications.repositories.CompanyRepository;
 import gk.jobapplications.repositories.JobRepository;
+import gk.jobapplications.repositories.CandidateRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +24,11 @@ public class JobService {
     private JobRepository jobRepository;
 
     @Autowired
+    private CandidateRepository candidateRepository;
+
+    @Autowired
     private CompanyService companyService;
+
     @Autowired
     private CompanyRepository companyRepository;
 
@@ -92,5 +100,29 @@ public class JobService {
         }
 
         return jobFromDB;
+    }
+
+    public JobEntity applyToJob(UUID jobId, UUID candidateId) {
+        JobEntity jobFromDB = jobRepository.findById(jobId).orElse(null);
+        CandidateEntity candidateFromDB = candidateRepository.findById(candidateId).orElse(null);
+
+        if (jobFromDB == null) {
+            throw new ResourceNotFoundException("Vaga não encontrada");
+        }
+
+        if (jobFromDB.getDeletedAt() != null) {
+            throw new ResourceInvalidException("Vaga não está mais disponível");
+        }
+
+        if (candidateFromDB == null) {
+            throw new ResourceNotFoundException("Candidato não encontrado");
+        }
+
+        if (jobFromDB.getCandidates().contains(candidateFromDB)) {
+            throw new ResourceAlreadyExistsException("Candidato já se aplicou a esta vaga");
+        }
+
+        jobFromDB.getCandidates().add(candidateFromDB);
+        return jobRepository.save(jobFromDB);
     }
 }
