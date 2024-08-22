@@ -1,10 +1,17 @@
 package gk.jobapplications.services;
 
+import java.util.List;
 import gk.jobapplications.entities.CompanyEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
+import gk.jobapplications.exceptions.ResourceNotFoundException;
 import gk.jobapplications.repositories.CompanyRepository;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class CompanyService {
@@ -20,5 +27,58 @@ public class CompanyService {
         }
 
         return companyRepository.save(companyEntity);
+    }
+
+    public CompanyEntity getCompanyById(UUID id) {
+        CompanyEntity companyEntity = companyRepository.findById(id).orElse(null);
+
+        if (companyEntity == null) {
+            throw new ResourceNotFoundException("Empresa não encontrada");
+        }
+
+        return companyEntity;
+    }
+
+    public CompanyEntity getCompanyByCNPJ(String cnpj) {
+        CompanyEntity companyEntity = companyRepository.findByCnpj(cnpj);
+
+        if (companyEntity == null) {
+            throw new ResourceNotFoundException("Empresa não encontrada");
+        }
+
+        return companyEntity;
+    }
+
+    public CompanyEntity updateCompany(UUID id, CompanyEntity companyEntity) {
+        CompanyEntity companyFromDB = companyRepository.findById(id).orElse(null);
+
+        if (companyFromDB == null) {
+            throw new ResourceNotFoundException("Empresa não encontrada");
+        }
+
+        companyFromDB.setName(companyEntity.getName());
+        companyFromDB.setAddress(companyEntity.getAddress());
+        companyFromDB.setPhone(companyEntity.getPhone());
+
+        return companyRepository.save(companyFromDB);
+    }
+
+    public void deleteCompany(UUID id) {
+        CompanyEntity companyEntity = companyRepository.findById(id).orElse(null);
+
+        if (companyEntity == null) {
+            throw new ResourceNotFoundException("Empresa não encontrada");
+        }
+
+        companyEntity.setDeletedAt(LocalDateTime.now());
+        companyRepository.save(companyEntity);
+    }
+
+    public List<CompanyEntity> getAllActiveCompanies() {
+        return companyRepository.findByDeletedAtIsNull();
+    }
+
+    public List<CompanyEntity> getAllInactiveCompanies() {
+        return companyRepository.findByDeletedAtIsNotNull();
     }
 }

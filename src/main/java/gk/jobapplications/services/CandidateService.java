@@ -1,12 +1,14 @@
 package gk.jobapplications.services;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gk.jobapplications.entities.CandidateEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
+import gk.jobapplications.exceptions.ResourceNotFoundException;
 import gk.jobapplications.repositories.CandidateRepository;
 
 @Service
@@ -27,11 +29,55 @@ public class CandidateService {
         return candidateRepository.save(candidateEntity);
     }
 
-    public void deleteCandidate(CandidateEntity candidateEntity) {
-        candidateEntity.setDeletedAt(LocalDateTime.now());
-        candidateRepository.save(candidateEntity);
-
+    public void deleteCandidate(UUID id) {
         
-        throw new ResourceAlreadyExistsException("Candidato deletado com sucesso");
+        CandidateEntity candidateFromDB = candidateRepository.findById(id).orElse(null);
+
+        if (candidateFromDB == null) {
+            throw new ResourceNotFoundException("Candidato não encontrado");
+        }
+
+        candidateFromDB.setDeletedAt(LocalDateTime.now());
+
+        candidateRepository.save(candidateFromDB);
+
+    }
+
+    public CandidateEntity updateCandidate(UUID id, CandidateEntity candidateEntity) {
+        CandidateEntity candidateFromDB = candidateRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Candidato não encontrado"));
+
+        if (candidateEntity.getName() != null) {
+            candidateFromDB.setName(candidateEntity.getName());
+        }
+        if (candidateEntity.getEmail() != null) {
+            candidateFromDB.setEmail(candidateEntity.getEmail());
+        }
+        if (candidateEntity.getProfession() != null) {
+            candidateFromDB.setProfession(candidateEntity.getProfession());
+        }
+        if (candidateEntity.getPasswordHash() != null) {
+            candidateFromDB.setPasswordHash(candidateEntity.getPasswordHash());
+        }
+
+        return candidateRepository.save(candidateFromDB);
+    }
+
+    public List<CandidateEntity> getAllActiveCandidates() {
+        return candidateRepository.findByDeletedAtIsNull();
+    }
+
+    public List<CandidateEntity> getAllInactiveCandidates() {
+        return candidateRepository.findByDeletedAtIsNotNull();
+    }
+
+    public CandidateEntity getCandidateById(UUID id) {
+        CandidateEntity companyFromDB = candidateRepository.findById(id).orElse(null);
+
+        if (companyFromDB == null) {
+            throw new ResourceNotFoundException("Candidato não encontrado");
+        }
+
+        return companyFromDB;
     }
 }
