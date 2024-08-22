@@ -1,14 +1,13 @@
 package gk.jobapplications.entities;
 
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
-
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "job")
@@ -46,9 +45,9 @@ public class JobEntity {
 
   @ManyToMany
   @JoinTable(
-    name = "job_candidates",
-    joinColumns = @JoinColumn(name = "job_id"),
-    inverseJoinColumns = @JoinColumn(name = "candidate_id")
+          name = "job_candidates",
+          joinColumns = @JoinColumn(name = "job_id"),
+          inverseJoinColumns = @JoinColumn(name = "candidate_id")
   )
   private List<CandidateEntity> candidates;
 }
