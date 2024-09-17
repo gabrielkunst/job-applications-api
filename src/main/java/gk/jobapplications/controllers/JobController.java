@@ -1,19 +1,25 @@
 package gk.jobapplications.controllers;
 
-import gk.jobapplications.dtos.CreateJobDTO;
-import gk.jobapplications.responses.ApiResponse;
-import gk.jobapplications.services.JobService;
-import gk.jobapplications.services.CandidateService;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import gk.jobapplications.entities.JobEntity;
+import gk.jobapplications.dtos.CreateJobDTO;
 import gk.jobapplications.entities.CompanyEntity;
-
-import java.util.List;
-import java.util.UUID;
+import gk.jobapplications.entities.JobEntity;
+import gk.jobapplications.responses.ApiResponse;
+import gk.jobapplications.services.JobService;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -21,9 +27,6 @@ public class JobController {
 
     @Autowired
     private JobService jobService;
-
-    @Autowired
-    private CandidateService candidateService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<JobEntity>> createJob(@RequestBody CreateJobDTO createJobDTO) {
@@ -118,4 +121,27 @@ public class JobController {
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/active")
+    public ResponseEntity<ApiResponse<List<JobEntity>>> getAllActiveJob() {
+        List<JobEntity> companies = jobService.getAllActiveJob();
+        ApiResponse<List<JobEntity>> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Lista de vagas de emprego ativas",
+                companies
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<ApiResponse<List<JobEntity>>> getAllInactiveJob() {
+        List<JobEntity> companies = jobService.getAllInactiveJob();
+        ApiResponse<List<JobEntity>> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Lista de vagas de emprego inativas",
+                 companies
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
