@@ -1,33 +1,21 @@
 package gk.jobapplications.services;
 
-
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gk.jobapplications.entities.CandidateEntity;
 import gk.jobapplications.entities.CompanyEntity;
-
-import gk.jobapplications.entities.CompanyEntity;
-import gk.jobapplications.entities.CandidateEntity;
-
 import gk.jobapplications.entities.JobEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
 import gk.jobapplications.exceptions.ResourceInvalidException;
 import gk.jobapplications.exceptions.ResourceNotFoundException;
-
 import gk.jobapplications.repositories.CandidateRepository;
-
 import gk.jobapplications.repositories.CompanyRepository;
 import gk.jobapplications.repositories.JobRepository;
-import gk.jobapplications.repositories.CandidateRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class JobService {
