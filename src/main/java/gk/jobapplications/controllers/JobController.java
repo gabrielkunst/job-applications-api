@@ -20,6 +20,7 @@ import gk.jobapplications.entities.CompanyEntity;
 import gk.jobapplications.entities.JobEntity;
 import gk.jobapplications.responses.ApiResponse;
 import gk.jobapplications.services.JobService;
+import jakarta.validation.Valid;
 
 
 
@@ -31,7 +32,7 @@ public class JobController {
     private JobService jobService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<JobEntity>> createJob(@RequestBody CreateJobDTO createJobDTO) {
+    public ResponseEntity<ApiResponse<JobEntity>> createJob(@Valid @RequestBody CreateJobDTO createJobDTO) {
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setId(createJobDTO.getCompanyId());
 
@@ -40,6 +41,7 @@ public class JobController {
                 .description(createJobDTO.getDescription())
                 .quantity(createJobDTO.getQuantity())
                 .companyEntity(companyEntity)
+                .expiresAt(createJobDTO.getExpiresAt())
                 .build();
 
         JobEntity job = jobService.createJob(jobEntity);
@@ -92,7 +94,7 @@ public class JobController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<JobEntity>> updateJob(@PathVariable UUID id, @RequestBody CreateJobDTO createJobDTO) {
+    public ResponseEntity<ApiResponse<JobEntity>> updateJob(@PathVariable UUID id, @Valid @RequestBody CreateJobDTO createJobDTO) {
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setId(createJobDTO.getCompanyId());
 
@@ -101,6 +103,7 @@ public class JobController {
                 .description(createJobDTO.getDescription())
                 .quantity(createJobDTO.getQuantity())
                 .companyEntity(companyEntity)
+                .expiresAt(createJobDTO.getExpiresAt())
                 .build();
 
         JobEntity job = jobService.updateJob(id, jobEntity);
@@ -148,5 +151,7 @@ public class JobController {
 
 
     }
+
+
 
 }

@@ -1,16 +1,19 @@
 package gk.jobapplications.dtos;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.UUID;
-
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +32,7 @@ public class CreateJobDTO {
 
     @NotNull(message = "O ID da empresa é obrigatório")
     private UUID companyId;
+
+    private LocalDateTime expiresAt;
 }
 

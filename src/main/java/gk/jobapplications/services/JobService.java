@@ -40,6 +40,11 @@ public class JobService {
         }
 
         jobEntity.setCompanyEntity(companyFromDB);
+
+        if (jobEntity.getExpiresAt() == null) {
+            jobEntity.setExpiresAt(LocalDateTime.now().plusDays(15));
+        }
+
         return jobRepository.save(jobEntity);
     }
 
@@ -126,7 +131,6 @@ public class JobService {
         return jobRepository.save(jobFromDB);
     }
 
-
     public List<JobEntity> getAllActiveJob() {
         return jobRepository.findByDeletedAtIsNull();
     }
@@ -135,4 +139,5 @@ public class JobService {
         return jobRepository.findByDeletedAtIsNotNull();
     }
 
+    
 }
