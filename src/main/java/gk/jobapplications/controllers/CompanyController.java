@@ -3,6 +3,7 @@ package gk.jobapplications.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import gk.jobapplications.dtos.JobKPIDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,18 @@ public class CompanyController {
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/kpis")
+    public ResponseEntity<ApiResponse<JobKPIDTO>> getCompanyKPIS(@PathVariable UUID id) {
+        JobKPIDTO jobKPIDTO = companyService.getCompanyKPIS(id);
+        ApiResponse<JobKPIDTO> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "KPIs da empresa encontrados com sucesso",
+                jobKPIDTO
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<CompanyEntity>> updateCompany(@PathVariable UUID id, @RequestBody CompanyEntity companyEntity) {

@@ -2,8 +2,10 @@ package gk.jobapplications.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import gk.jobapplications.dtos.JobKPIDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -136,3 +138,4 @@ public class JobService {
     }
 
 }
+
