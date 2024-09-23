@@ -1,21 +1,23 @@
 package gk.jobapplications.services;
 
-import gk.jobapplications.entities.CompanyEntity;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import gk.jobapplications.dtos.JobKPIDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import gk.jobapplications.entities.CandidateEntity;
+import gk.jobapplications.entities.CompanyEntity;
 import gk.jobapplications.entities.JobEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
 import gk.jobapplications.exceptions.ResourceInvalidException;
 import gk.jobapplications.exceptions.ResourceNotFoundException;
+import gk.jobapplications.repositories.CandidateRepository;
 import gk.jobapplications.repositories.CompanyRepository;
 import gk.jobapplications.repositories.JobRepository;
-import gk.jobapplications.repositories.CandidateRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class JobService {
@@ -125,4 +127,15 @@ public class JobService {
         jobFromDB.getCandidates().add(candidateFromDB);
         return jobRepository.save(jobFromDB);
     }
+
+
+    public List<JobEntity> getAllActiveJob() {
+        return jobRepository.findByDeletedAtIsNull();
+    }
+
+    public List<JobEntity> getAllInactiveJob() {
+        return jobRepository.findByDeletedAtIsNotNull();
+    }
+
 }
+
