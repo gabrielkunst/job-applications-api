@@ -1,6 +1,7 @@
 package gk.jobapplications.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,5 +50,6 @@ public class JobEntity {
           joinColumns = @JoinColumn(name = "job_id"),
           inverseJoinColumns = @JoinColumn(name = "candidate_id")
   )
-  private List<CandidateEntity> candidates;
+
+  private List<CandidateEntity> candidates = new ArrayList<>();
 }
