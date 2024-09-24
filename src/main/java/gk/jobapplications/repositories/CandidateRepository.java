@@ -11,8 +11,6 @@ import gk.jobapplications.entities.CandidateEntity;
 @Repository
 public interface CandidateRepository extends JpaRepository<CandidateEntity, UUID>{
   CandidateEntity findByEmail(String email);
-
   List<CandidateEntity> findByDeletedAtIsNull();
-
   List<CandidateEntity> findByDeletedAtIsNotNull();
 }

@@ -10,8 +10,6 @@ import java.util.UUID;
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, UUID> {
     CompanyEntity findByCnpj(String cnpj);
-
     List<CompanyEntity> findByDeletedAtIsNull();
-
     List<CompanyEntity> findByDeletedAtIsNotNull();
 }
