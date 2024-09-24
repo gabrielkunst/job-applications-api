@@ -2,10 +2,8 @@ package gk.jobapplications.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import gk.jobapplications.dtos.JobKPIDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,16 +90,6 @@ public class JobService {
         }
 
         return jobRepository.findAllByCompanyEntity(companyFromDB);
-    }
-
-    public JobEntity getJobByTitle(String title) {
-        JobEntity jobFromDB = jobRepository.findByTitle(title).orElse(null);
-
-        if (jobFromDB == null) {
-            throw new ResourceAlreadyExistsException("Vaga não encontrada");
-        }
-
-        return jobFromDB;
     }
 
     public JobEntity applyToJob(UUID jobId, UUID candidateId) {

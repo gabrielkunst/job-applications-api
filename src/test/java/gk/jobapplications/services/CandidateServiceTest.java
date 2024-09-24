@@ -1,24 +1,27 @@
 
 package gk.jobapplications.services;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 
 import gk.jobapplications.entities.CandidateEntity;
 import gk.jobapplications.exceptions.ResourceAlreadyExistsException;
 import gk.jobapplications.exceptions.ResourceNotFoundException;
 import gk.jobapplications.repositories.CandidateRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
 
 class CandidateServiceTest {
 
@@ -89,11 +92,17 @@ class CandidateServiceTest {
 
         CandidateEntity updatedCandidate = new CandidateEntity();
         updatedCandidate.setName("Maria Oliveira");
+        updatedCandidate.setEmail("joao.silva@example.com");
+        updatedCandidate.setProfession("Desenvolvedora");
+        updatedCandidate.setPasswordHash("hashedPassword");
+        
 
         CandidateEntity result = candidateService.updateCandidate(candidateEntity.getId(), updatedCandidate);
 
         assertEquals("Maria Oliveira", result.getName());
         assertEquals("joao.silva@example.com", result.getEmail());
+        assertEquals("Desenvolvedora", result.getProfession());
+        assertEquals("hashedPassword", result.getPasswordHash());
     }
 
     @Test
