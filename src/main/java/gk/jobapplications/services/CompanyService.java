@@ -11,7 +11,7 @@ import gk.jobapplications.repositories.CompanyRepository;
 
 
 import gk.jobapplications.repositories.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,12 +19,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CompanyService {
 
-    @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
-    private JobRepository jobRepository;
+    private final CompanyRepository companyRepository;
+    private final JobRepository jobRepository;
+
 
     public CompanyEntity createCompany(CompanyEntity companyEntity) {
         CompanyEntity companyFromDB = companyRepository.findByCnpj(companyEntity.getCnpj());
@@ -38,16 +38,6 @@ public class CompanyService {
 
     public CompanyEntity getCompanyById(UUID id) {
         CompanyEntity companyEntity = companyRepository.findById(id).orElse(null);
-
-        if (companyEntity == null) {
-            throw new ResourceNotFoundException("Empresa não encontrada");
-        }
-
-        return companyEntity;
-    }
-
-    public CompanyEntity getCompanyByCNPJ(String cnpj) {
-        CompanyEntity companyEntity = companyRepository.findByCnpj(cnpj);
 
         if (companyEntity == null) {
             throw new ResourceNotFoundException("Empresa não encontrada");
